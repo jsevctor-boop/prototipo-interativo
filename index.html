@@ -3,46 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protótipo Interativo - Coleira 3D</title>
+    <title>Protótipo - Coleira Inteligente 3D</title>
+    
+    <!-- Importa a biblioteca oficial do Google para 3D -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #2c2c2c;
-            color: white;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            margin: 0; padding: 0;
+            background-color: #1e1e1e; color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
-        header {
-            padding: 20px;
-            text-align: center;
-        }
+        header { padding: 20px; text-align: center; }
+        h1 { margin-bottom: 5px; color: #00ff88; }
+        p { color: #aaaaaa; }
+        
         .container-3d {
-            width: 90vw;
-            max-width: 1000px;
-            height: 70vh;
-            background-color: #1a1a1a;
-            border-radius: 12px;
+            width: 90vw; max-width: 900px; height: 65vh;
+            background-color: #2a2a2a; border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            overflow: hidden; position: relative;
+        }
+
+        /* O visualizador 3D ocupa todo o espaço */
+        model-viewer {
+            width: 100%; height: 100%;
+            --poster-color: transparent;
+        }
+
+        /* Bolinhas interativas (Hotspots) */
+        .Hotspot {
+            background: #00ff88; border-radius: 50%; border: none;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            cursor: pointer; height: 24px; width: 24px;
+            transition: transform 0.2s;
+        }
+        .Hotspot:hover { transform: scale(1.2); }
+
+        /* Caixas de texto das descrições */
+        .HotspotAnnotation {
+            background: rgba(0, 0, 0, 0.85); border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); color: white;
+            display: none; padding: 12px; position: absolute;
+            top: 30px; left: 15px; width: 220px; font-size: 14px;
+            border-left: 4px solid #00ff88; text-align: left;
+            backdrop-filter: blur(4px);
+        }
+        .Hotspot:focus .HotspotAnnotation, .Hotspot:hover .HotspotAnnotation {
+            display: block;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Protótipo: Coleira Inteligente</h1>
-        <p>Arraste para girar o modelo. (O seu ficheiro 3D vai entrar aqui em breve)</p>
+        <h1>Coleira Inteligente para Gado</h1>
+        <p>Arraste para girar em 360º. Passe o rato nos pontos verdes para ver os detalhes das peças.</p>
     </header>
 
-    <!-- É nesta área que vamos colocar o código de interatividade (ex: Spline) -->
     <div class="container-3d">
-        <p style="color: #888;">[ O modelo 3D aparecerá aqui ]</p>
+        <!-- Substituiremos o "src" abaixo pelo seu ficheiro real depois. 
+             Por agora, coloquei um modelo genérico de exemplo da Google. -->
+        <model-viewer 
+            src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+            camera-controls 
+            auto-rotate 
+            shadow-intensity="1" 
+            environment-image="neutral"
+            exposure="1">
+            
+            <!-- Ponto Interativo 1 -->
+            <button class="Hotspot" slot="hotspot-1" data-position="0 1.5 0" data-normal="0 1 0">
+                <div class="HotspotAnnotation">
+                    <strong>Painel Solar</strong><br>
+                    Recarrega a bateria de forma autônoma durante o dia, garantindo funcionamento ininterrupto.
+                </div>
+            </button>
+            
+            <!-- Ponto Interativo 2 -->
+            <button class="Hotspot" slot="hotspot-2" data-position="-0.5 1 0.5" data-normal="-1 0 1">
+                <div class="HotspotAnnotation">
+                    <strong>Módulo GPS & Sensores</strong><br>
+                    Rastreio em tempo real da localização e monitorização dos sinais vitais do animal.
+                </div>
+            </button>
+
+        </model-viewer>
     </div>
 </body>
 </html>
